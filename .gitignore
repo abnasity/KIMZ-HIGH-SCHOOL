@@ -1,0 +1,6 @@
+.school
+__pycache__
+*.pyc
+__pycache__/
+school.db
+
