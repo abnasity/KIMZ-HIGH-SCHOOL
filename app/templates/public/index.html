@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero">
+    <div class="container">
+        <h1>Welcome to Kimulot High School</h1>
+        <p class="lead">Nurturing Tomorrow's Leaders Through Excellence in Education</p>
+        <a href="{{ url_for('public.about') }}" class="btn btn-primary btn-lg">Learn More</a>
+    </div>
+</section>
+
+<section class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <h2 class="mb-4">Latest Announcements</h2>
+            {% if announcements %}
+                {% for announcement in announcements %}
+                    <div class="card announcement-card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ announcement.title }}</h5>
+                            <p class="card-text">{{ announcement.content[:200] }}...</p>
+                            <p class="announcement-meta">
+                                Posted by {{ announcement.author.username }} on 
+                                {{ announcement.timestamp.strftime('%B %d, %Y') }}
+                            </p>
+                        </div>
+                    </div>
+                {% endfor %}
+                <a href="{{ url_for('public.announcements') }}" class="btn btn-outline-primary">View All Announcements</a>
+            {% else %}
+                <p>No announcements at this time.</p>
+            {% endif %}
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="{{ url_for('public.staff') }}">Staff Directory</a></li>
+                        <li><a href="{{ url_for('public.contact') }}">Contact Us</a></li>
+                        {% if current_user.is_authenticated %}
+                            {% if current_user.role in ['admin', 'teacher'] %}
+                                <li><a href="{{ url_for('admin.dashboard') }}">Admin Dashboard</a></li>
+                            {% endif %}
+                        {% else %}
+                            <li><a href="{{ url_for('auth.login') }}">Student/Staff Login</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5 class="card-title">School Hours</h5>
+                    <p class="mb-2"><strong>Monday - Friday:</strong></p>
+                    <ul class="list-unstyled">
+                        <li>Morning Session: 8:00 AM - 12:30 PM</li>
+                        <li>Lunch Break: 12:30 PM - 1:30 PM</li>
+                        <li>Afternoon Session: 1:30 PM - 4:00 PM</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="container mt-5">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-graduation-cap fa-3x mb-3"></i>
+                    <h3>Academic Excellence</h3>
+                    <p>Committed to providing quality education and fostering academic achievement.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-users fa-3x mb-3"></i>
+                    <h3>Strong Community</h3>
+                    <p>Building a supportive community of students, teachers, and parents.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-star fa-3x mb-3"></i>
+                    <h3>Enrichment Programs</h3>
+                    <p>Offering diverse extracurricular activities for holistic development.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
